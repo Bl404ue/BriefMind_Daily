@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BriefMind Daily</title>
+    <meta name="description" content="BriefMind Daily - 自动收集和整合最新的AI研究论文和前沿动态">
+    <meta name="keywords" content="LLM, 人工智能, 论文, 推荐, 学术, 研究">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.1743207275.css?v=1.0.1">
+    
+    <!-- Preload -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="./home.html">
+                <div class="logo-container">
+                    <div class="logo-icons">
+                        <i class="fas fa-robot"></i>
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <span class="logo-text">BriefMind</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./home.html">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#papers">论文</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#wechat">公众号推文</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 添加筛选选项 -->
+    <div class="container content-container">
+        <div class="filter-container">
+            <div class="filter-title">内容筛选</div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="date-filter" class="form-label">按日期筛选：</label>
+                    <div class="date-filter-container">
+                        <select id="date-filter" class="form-select">
+                            <!-- 日期选项将通过JavaScript动态添加 -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="field-filter" class="form-label">按领域筛选：</label>
+                    <div class="multi-select-container" id="field-filter-container">
+                        <div class="selected-options" id="selected-fields">
+                            <span class="selected-all">全部领域</span>
+                        </div>
+                        <div class="options-dropdown" id="field-options">
+                            <div class="option-item select-all selected" data-value="all">
+                                <input type="checkbox" checked id="field-all">
+                                <label for="field-all">全部领域</label>
+                            </div>
+                            <!-- 领域选项将通过JavaScript动态添加 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="institution-filter" class="form-label">按机构筛选：</label>
+                    <div class="multi-select-container" id="institution-filter-container">
+                        <div class="selected-options" id="selected-institutions">
+                            <span class="selected-all">全部机构</span>
+                        </div>
+                        <div class="options-dropdown" id="institution-options">
+                            <div class="option-item select-all selected" data-value="all">
+                                <input type="checkbox" checked id="institution-all">
+                                <label for="institution-all">全部机构</label>
+                            </div>
+                            <!-- 机构选项将通过JavaScript动态添加 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button id="reset-filters" class="btn btn-outline-secondary btn-sm">重置筛选</button>
+                    <span id="filter-info" class="ms-3 text-muted"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 论文部分 -->
+    <section id="papers" class="papers-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header text-center">
+                        <h2>论文</h2>
+                        <p>最新AI研究论文，按点赞数排序</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div id="huggingface-papers-container" class="row">
+                        <!-- 论文卡片将在这里动态加载 -->
+                        <div class="col-12 text-center">
+                            <div class="spinner-border huggingface-loading" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 微信公众号文章 -->
+    <section id="wechat" class="wechat-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>微信公众号精选</h2>
+                <p>每日精选科技领域优质公众号文章，为您提供最新科技资讯</p>
+            </div>
+            
+            <div id="wechat-articles-container" class="row">
+                <!-- 文章将通过JavaScript动态添加 -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border wechat-loading" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-about">
+                        <h3>关于BriefMind Daily</h3>
+                        <p>BriefMind Daily是一个专注于AI领域的信息整合平台，旨在帮助研究人员跟踪最新的研究进展和技术动态</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="footer-links">
+                        <h3>快速链接</h3>
+                        <ul>
+                            <li><a href="./home.html">首页</a></li>
+                            <li><a href="#papers">论文</a></li>
+                            <li><a href="#wechat">公众号文章</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="footer-contact">
+                        <h3>联系我们</h3>
+                        <p>如有任何问题或建议，请随时联系我们</p>
+                        <p class="designer-credits">Designed by <a class="designer-email no-mail">Lijun Wu</a>, <a href="mailto:1192056830@qq.com" class="designer-email">Mengyuan Sun <i class="fas fa-envelope"></i></a>, <a href="mailto:1172640191@qq.com" class="designer-email">Mengjie Liu <i class="fas fa-envelope"></i></a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BriefMind Daily All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回筛选器按钮 -->
+    <div class="back-to-filter-btn" id="backToFilterBtn" title="返回筛选器">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- 文章卡片模板 -->
+    <template id="article-template">
+        <div class="col-12 mb-3">
+            <div class="article-card">
+                <div class="card-header">
+                    <div class="title-row">
+                        <h3 class="card-title">
+                            <a href="#" class="article-title" target="_blank" style="text-decoration: none; color: #0a2d6e !important;"></a>
+                        </h3>
+                        <div class="tag-container">
+                            <span class="article-source"></span>
+                            <span class="article-field"></span>
+                            <div class="institution-tags"></div>
+                        </div>
+                    </div>
+                    <div class="original-title"></div>
+                </div>
+                <div class="summary-preview">
+                    <span class="summary-text"></span>
+                    <button class="toggle-summary-btn">
+                        <i class="fas fa-book-open"></i> 展开
+                    </button>
+                </div>
+                <div class="summary-container" style="display: none;">
+                    <div class="summary-content"></div>
+                    <button class="collapse-summary-btn">
+                        <i class="fas fa-book"></i> 收起
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 论文卡片模板 -->
+    <template id="paper-template">
+        <div class="col-12 mb-3">
+            <div class="article-card">
+                <div class="card-header">
+                    <div class="title-row">
+                        <h3 class="card-title">
+                            <a href="#" class="article-title" target="_blank" style="text-decoration: none; color: #0a2d6e !important;"></a>
+                        </h3>
+                        <div class="tag-container">
+                            <span class="article-source"></span>
+                            <span class="article-field"></span>
+                            <div class="institution-tags"></div>
+                        </div>
+                    </div>
+                    <div class="original-title"></div>
+                </div>
+                <div class="summary-preview">
+                    <span class="summary-text"></span>
+                    <button class="toggle-summary-btn">
+                        <i class="fas fa-book-open"></i> 展开
+                    </button>
+                </div>
+                <div class="summary-container" style="display: none;">
+                    <div class="summary-content"></div>
+                    <button class="collapse-summary-btn">
+                        <i class="fas fa-book"></i> 收起
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script>
+        // 配置 marked.js
+        marked.setOptions({
+            breaks: true,
+            gfm: true
+        });
+
+        // 等待 DOM 和所有资源加载完成
+        $(window).on('load', function() {
+            let isScrolling = false; // 标记是否正在进行动画滚动
+            
+            // 页面加载时检查URL中的锚点，并滚动到对应位置
+            function scrollToAnchorOnLoad() {
+                // 获取URL中的锚点
+                var hash = window.location.hash;
+                
+                // 如果有锚点
+                if (hash) {
+                    console.log("Found hash in URL:", hash);
+                    
+                    // 延迟执行以确保页面完全加载
+                    setTimeout(function() {
+                        // 查找目标元素
+                        var targetElement = $(hash);
+                        
+                        // 如果找到目标元素
+                        if (targetElement.length) {
+                            console.log("Scrolling to:", hash);
+                            
+                            // 滚动到目标元素位置
+                            $('html, body').animate({
+                                scrollTop: targetElement.offset().top - 70
+                            }, {
+                                duration: 500,
+                                easing: 'easeInOutQuad'
+                            });
+                            
+                            // 更新导航栏激活状态
+                            $('.navbar-nav .nav-link').removeClass('active');
+                            $('.navbar-nav .nav-link[href="' + hash + '"]').addClass('active');
+                        }
+                    }, 300);
+                }
+            }
+            
+            // 调用函数执行滚动
+            scrollToAnchorOnLoad();
+            
+            // 导航栏滚动效果
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
+            
+            // 处理导航栏外部链接的点击事件
+            $('.navbar-nav .nav-link[href^="/"]').on('click', function(e) {
+                e.preventDefault();
+                var targetUrl = $(this).attr('href');
+                window.location.href = targetUrl;
+            });
+            
+            // 处理页脚外部链接
+            $('.footer-links a[href^="/"]').on('click', function(e) {
+                e.preventDefault();
+                var targetUrl = $(this).attr('href');
+                window.location.href = targetUrl;
+            });
+            
+            // 滚动监听，激活对应的导航项
+            function updateActiveNavItem() {
+                // 如果正在进行动画滚动，不更新激活状态
+                if (isScrolling) return;
+                
+                var scrollPosition = $(window).scrollTop();
+                var windowHeight = $(window).height();
+                var currentSection = '';
+                var minDistance = Infinity;
+                
+                // 检查每个部分的位置
+                $('section').each(function() {
+                    var section = $(this);
+                    var sectionTop = section.offset().top - 100;
+                    var distance = Math.abs(scrollPosition - sectionTop);
+                    
+                    // 找到距离视口顶部最近的部分
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        currentSection = section.attr('id');
+                    }
+                });
+                
+                // 更新导航项的激活状态
+                $('.navbar-nav .nav-link').removeClass('active');
+                $('.navbar-nav .nav-link[href="#' + currentSection + '"]').addClass('active');
+            }
+            
+            // 使用 Lodash 的 throttle 函数限制滚动事件的触发频率
+            $(window).scroll(_.throttle(updateActiveNavItem, 100));
+            
+            // 页面加载时检查一次
+            updateActiveNavItem();
+            
+            // 点击导航链接平滑滚动
+            $('.navbar-nav .nav-link[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                var targetHref = $(this).attr('href');
+                var targetElement = $(targetHref);
+                if (targetElement.length) {
+                    // 立即更新激活状态
+                    $('.navbar-nav .nav-link').removeClass('active');
+                    $(this).addClass('active');
+                    
+                    // 设置动画标记
+                    isScrolling = true;
+                    
+                    // 使用较短的动画时间和easeInOutQuad缓动
+                    $('html, body').animate({
+                        scrollTop: targetElement.offset().top - 70
+                    }, {
+                        duration: 500,
+                        easing: 'easeInOutQuad',
+                        complete: function() {
+                            // 动画完成后恢复滚动监听
+                            setTimeout(function() {
+                                isScrolling = false;
+                            }, 100);
+                        }
+                    });
+                    
+                    // 关闭移动端菜单
+                    $('.navbar-collapse').collapse('hide');
+                }
+            });
+            
+            // 添加 jQuery easeInOutQuad 缓动函数
+            $.easing.easeInOutQuad = function (x, t, b, c, d) {
+                if ((t/=d/2) < 1) return c/2*t*t + b;
+                return -c/2 * ((--t)*(t-2) - 1) + b;
+            };
+            
+            // 返回筛选器按钮功能
+            $(window).scroll(function() {
+                // 当滚动超过筛选器区域200px时显示按钮
+                if ($(this).scrollTop() > ($('.filter-container').offset().top + 200)) {
+                    $('#backToFilterBtn').addClass('show');
+                } else {
+                    $('#backToFilterBtn').removeClass('show');
+                }
+            });
+            
+            // 点击返回按钮滚动到筛选器位置
+            $('#backToFilterBtn').click(function() {
+                // 使用更平滑的动画曲线
+                $('html, body').animate({
+                    scrollTop: $('.filter-container').offset().top - 80
+                }, {
+                    duration: 800,
+                    easing: 'easeOutCubic' // 使用easeOutCubic缓动函数
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,2 @@
+﻿标题,中文标题,发布日期,领域分类,研究机构,PDF链接,论文链接,AlphaXiv链接,简明摘要,点赞数
+FALCONEye: Finding Answers and Localizing Content in ONE-hour-long videos with multi-modal LLMs,FALCONEye：使用多模态大语言模型在一小时长的视频中寻找答案和定位内容,25 Mar 2025,Multimodal LLM,Other,https://arxiv.org/pdf/2503.19850,https://www.arxiv.org/abs/2503.19850,https://www.alphaxiv.org/abs/2503.19850,FALCONEye是一种新的视频检索代理，旨在解决在长达一小时的视频中定位和回答问题的挑战。该系统结合了视觉语言模型（VLM）和大型语言模型（LLM），通过一种新的元架构和高效的探索算法，优化了信息的定位过程。FALCONEye能够在庞大的视频数据中，准确找到包含答案的帧，同时避免无关内容的干扰。论文中还发布了FALCON-Bench基准测试，用于评估长视频问答的性能，显示出FALCONEye在此领域的优越性，超越了现有的技术水平。,0

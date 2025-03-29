@@ -1,0 +1,5 @@
+﻿标题,中文标题,领域分类,研究机构,PDF链接,论文链接,简明摘要,Upvote数
+"Semantic Library Adaptation: LoRA Retrieval and Fusion for
+  Open-Vocabulary Semantic Segmentation",语义库适应：基于LoRA的检索与融合用于开放词汇语义分割,Other,Other,https://arxiv.org/pdf/2503.21780,https://huggingface.co/papers/2503.21780,本文提出了一种新颖的框架——语义库适应（SemLA），用于开放词汇语义分割的无训练、测试时域适应。SemLA利用基于LoRA的适配器库，并通过CLIP嵌入动态合并与目标域最相关的适配器，从而为每个特定输入构建量身定制的模型，而无需额外训练。该方法提高了模型的适应能力和可解释性，同时保护数据隐私，适合敏感应用。通过在20个领域的基准测试中进行的全面实验，SemLA在多种设置下展现了卓越的性能，确立了开放词汇语义分割领域适应的新标准。,3
+"Tracktention: Leveraging Point Tracking to Attend Videos Faster and
+  Better",Tracktention：利用点跟踪加速视频处理并提升效果,Other,Other,https://arxiv.org/pdf/2503.19904,https://huggingface.co/papers/2503.19904,本文提出了一种新颖的Tracktention Layer，旨在提升视频预测中的时间一致性。传统方法在处理动态场景中的显著物体运动时常常面临挑战，而Tracktention Layer通过整合点跟踪信息，显著改善了时间对齐能力，能够有效应对复杂的物体运动。该模块可高效地与现有模型（如视觉变换器）集成，甚至能将图像模型升级为视频模型，且在视频深度预测和视频着色等任务中表现优于专为视频设计的模型。实验结果表明，使用Tracktention Layer的模型在时间一致性方面显著优于基线模型。,1
